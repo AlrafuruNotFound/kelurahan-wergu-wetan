@@ -1,0 +1,297 @@
+"use client";
+
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { Menu, X, Search, ChevronRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
+import GlobalSearchModal from "./GlobalSearchModal";
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(true);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const pathname = usePathname();
+  const { t } = useLanguage();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const checkScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    
+    const handleMobileScroll = () => {
+      // Close mobile menu if scrolled significantly
+      if (isOpen && window.scrollY > 50) {
+        setIsOpen(false);
+      }
+    };
+
+    checkScroll();
+    window.addEventListener("scroll", checkScroll);
+    window.addEventListener("scroll", handleMobileScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("scroll", handleMobileScroll);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isSearchOpen && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isSearchOpen]);
+
+  useEffect(() => {
+    setIsSearchOpen(false);
+    setIsOpen(false);
+    // Force scroll ke atas secara instan saat ganti halaman
+    window.scrollTo({ top: 0 });
+    // Backup scroll-to-top setelah animasi selesai agar presisi di (0,0)
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    }
+    if (isSearchOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearchOpen]);
+
+  const isActive = (path: string) => pathname === path;
+
+  const menuItems = [
+    { name: t.navbar.news, path: "/berita" },
+    { name: "Tentang Kami", path: "/tentang-kami" },
+    { name: "Potensi Desa", path: "/potensi-desa" },
+    { name: t.navbar.services, path: "/layanan" },
+    { name: t.navbar.contact, path: "/kontak" },
+  ];
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeInOut" } },
+    exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
+  };
+
+
+
+  return (
+    <>
+      <nav
+        className={`relative z-30 flex h-[80px] w-full items-center transition-all duration-500 ${
+          scrolled || isOpen ? "border-b border-slate-100 bg-white shadow-sm" : "bg-transparent"
+        }`}
+      >
+        <div className="relative container mx-auto flex w-full items-center justify-between px-4 md:px-6">
+          {/* --- BAGIAN KIRI: LOGO --- */}
+          <Link
+            href="/home"
+            onClick={(e) => {
+              if (pathname === "/home") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className={`relative z-20 flex items-start gap-3 transition-opacity duration-300 ${isSearchOpen ? "md:opacity-0 lg:opacity-100" : "opacity-100"}`}
+          >
+            <Image
+              src="/logo-kudus.svg"
+              alt="Logo Kab. Kudus"
+              width={36}
+              height={34}
+              className="shrink-0 object-contain"
+            />
+            <div className="flex h-[34px] flex-col justify-between whitespace-nowrap">
+              <h1
+                className={`text-xl leading-tight font-bold transition-colors duration-500 md:text-2xl ${
+                  scrolled || isOpen ? "text-text-dark" : "text-white"
+                }`}
+              >
+                Wergu Wetan
+              </h1>
+              <p
+                className={`text-[9px] font-medium tracking-[0.2em] uppercase transition-colors duration-500 ${
+                  scrolled || isOpen ? "text-text-muted" : "text-blue-200"
+                }`}
+              >
+                {t.navbar.city}
+              </p>
+            </div>
+          </Link>
+
+          {/* --- BAGIAN KANAN: MENU DESKTOP / SEARCH BAR --- */}
+          <div className="relative ml-4 hidden h-full flex-1 items-center justify-end md:flex lg:ml-8">
+            <AnimatePresence mode="wait">
+                <motion.div
+                  key="normal-menu"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="absolute right-0 flex items-center justify-end gap-2 lg:gap-6"
+                >
+                  {/* --- BAGIAN MENU UTAMA --- */}
+                  <div className="mr-1 flex items-center gap-4 lg:mr-3 lg:gap-6">
+                    {menuItems.map((item) => (
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        onClick={(e) => {
+                          if (pathname === item.path) {
+                            e.preventDefault();
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }}
+                        className={`group relative text-sm font-bold whitespace-nowrap transition-colors duration-300 ${
+                          scrolled
+                            ? isActive(item.path)
+                              ? "text-brand-base"
+                              : "text-text-muted hover:text-brand-base"
+                            : "text-white"
+                        }`}
+                      >
+                        {item.name}
+                        <span
+                          className={`absolute -bottom-1 left-0 h-0.5 bg-brand-base transition-all duration-300 ${isActive(item.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+                        ></span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* --- BAGIAN SEARCH + CTA PILL --- */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsSearchOpen(true)}
+                      className={`flex items-center justify-center rounded-xl p-2.5 transition-all duration-300 ${
+                        scrolled
+                          ? "text-text-muted hover:bg-slate-100 hover:text-brand-base"
+                          : "text-white hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      <Search size={18} />
+                    </button>
+
+                    <Link
+                      href="/ayo-sehat"
+                      className={`ml-1 flex items-center justify-center rounded-full px-5 py-2 text-[13.5px] font-medium tracking-wide whitespace-nowrap transition-all duration-300 ${
+                        scrolled
+                          ? "border border-slate-300 bg-transparent text-text-dark hover:border-brand-base hover:bg-brand-base hover:text-white"
+                          : "border border-white/60 bg-transparent text-white hover:bg-white hover:text-text-dark"
+                      }`}
+                    >
+                      Ayo Sehat!
+                    </Link>
+                  </div>
+                </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div
+            className={`relative z-20 shrink-0 transition-opacity md:hidden ${isSearchOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
+          >
+            <button
+              className={`rounded-lg p-2 transition-colors touch-manipulation ${scrolled || isOpen ? "text-text-dark hover:bg-slate-100" : "text-white hover:bg-white/10"}`}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Tutup Menu" : "Buka Menu"}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* --- MOBILE MENU OVERLAY --- */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Invisible overlay for outside click to close */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-15 h-screen w-screen bg-black/20 backdrop-blur-sm md:hidden"
+            />
+            
+            {/* The Dropdown Menu — fixed top-[120px] = TopBar(40)+Navbar(80), anchored below fixed header */}
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="fixed left-0 right-0 top-[120px] z-35 overflow-hidden border-b border-slate-100 bg-white shadow-xl md:hidden"
+            >
+            <div className="container mx-auto flex flex-col gap-6 px-6 py-8">
+              {/* MOBILE SEARCH BAR */}
+              <div className="relative mb-2 border-b-2 border-slate-100 pb-6">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pb-6">
+                  <Search size={18} className="text-text-muted" />
+                </div>
+                <input
+                  readOnly
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsSearchOpen(true);
+                  }}
+                  type="text"
+                  placeholder="Cari layanan, berita..."
+                  className="cursor-pointer w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm font-medium text-text-dark shadow-sm outline-none transition-all hover:bg-white hover:border-brand-base placeholder:text-text-muted"
+                />
+              </div>
+
+              {menuItems.map((item, idx) => (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                >
+                  <Link
+                    href={item.path}
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      if (pathname === item.path) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    className={`flex items-center justify-between text-lg font-bold ${
+                      isActive(item.path) ? "text-brand-base" : "text-text-muted"
+                    }`}
+                  >
+                    {item.name}
+                    <ChevronRight
+                      size={18}
+                      className={`shrink-0 ${isActive(item.path) ? "text-brand-base" : "text-slate-300"}`}
+                    />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      <GlobalSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    </>
+  );
+}

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Custom Brand Palette */
+  --color-brand-dark: #0D47A1;
+  --color-brand-base: #1565C0;
+  --color-text-dark: #272727;
+  --color-text-muted: #7C7C7C;
+  --color-bg-white: #FFFFFF;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+html {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+/*
+  Safelist: Tailwind classes used inside dangerouslySetInnerHTML strings (TentangKamiView).
+  Tailwind v4 cannot scan strings, so we force-include them via a safelist file.
+*/
+@source "./tw-safelist.txt";
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Custom smooth fade-in animation for loading state to prevent flickering on fast page transitions */
+.animate-loading-fade {
+  animation: loadingFadeIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 180ms;
+  opacity: 0;
+}
+
+@keyframes loadingFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,46 @@
+# 🤖 VIBE CODING SYSTEM PROMPT: ANF-AGENTIC ARCHITECTURE
+
+You are an AI Agent (Cursor, Windsurf, Antigravity, Claude, etc.) operating within the "Wergu Wetan" Next.js ecosystem. This project uses a highly strict and modular **ANF-Agentic Architecture**.
+
+## 🛑 1. MANDATORY KNOWLEDGE BASE (READ FIRST)
+Do NOT assume project structure. Do NOT hallucinate coding standards. BEFORE writing any code, answering questions, or creating files, you MUST consult the documentation in the `.docs/` directory:
+- `README.md` (Root) — Project overview.
+- `.docs/architecture.md` — Master Blueprint, Branching Rules, Data Contracts.
+- `.docs/project-manifest.md` — Active File Inventory & Cleanup Queue.
+- `.docs/CHANGELOG.md` — Log of all recent changes and versions.
+
+## 🔀 2. DOMAIN-SPECIFIC RULES
+Depending on the User's task, you must dynamically read the following:
+- 🎨 **Frontend (UI/UX, Components):** MUST read `.docs/frontend-design.md`. (Use the "Hole" pattern, `next/image`, and Tailwind v4).
+- ⚙️ **Backend (Prisma, DB, Server Actions):** MUST read `.docs/backend-logic.md`. (Use Server Actions, NEVER create REST API routes).
+- 🔐 **Security (Auth, RLS, Validation):** MUST read `.docs/security-policy.md`. (Always use Zod).
+- 🧠 **MCP & AI Integrations:** MUST read `.docs/mcp-and-skills.md`.
+
+## 🛑 3. AI AGENT GIT SAFETY RULE (CRITICAL)
+- **NO AUTO-GIT:** You are **STRICTLY PROHIBITED** from running ANY `git` commands (`git add`, `git commit`, `git checkout`, `git merge`, `git push`, etc.) silently or automatically without explanation.
+- **EXPLICIT CONSENT:** You MUST trigger an explicit user confirmation (e.g., set `SafeToAutoRun: false` in your tool) so the user receives an "allow" pop-up. The User MUST analyze the code changes before allowing the Git operation to execute.
+- **GIT TRANSPARENCY LAW:** You MUST explicitly output and detail the exact `git` commands you are going to run, and list the exact files that will be modified, added, or deleted. Do not run git in the background without telling the user exactly what is happening.
+
+## 🌿 4. BRANCHING & WORKFLOW RULES
+- **Branch Creation Mandatory:** You MUST explicitly create and switch to a new branch using `git checkout -b <type>/<name>` BEFORE starting any work.
+- Never work directly on `main` or `pr` (unless integrating).
+- Backend tasks -> `be/<feature-name>`
+- Frontend tasks -> `fe/<feature-name>`
+- Documentation tasks -> `docs/<topic-name>`
+- Config/Tooling tasks -> `chore/<task-name>`
+- **DOCS-SYNC LAW:** You MUST document changes in `.docs/CHANGELOG.md` BEFORE modifying code files!
+
+## 🌐 5. LOCAL DEV NETWORK & CLEANUP LAW (CRITICAL DEFENSE)
+- **NO EXPERIMENTAL HTTPS:** NEVER use Next.js `--experimental-https` or local self-signed certificates (`mkcert`) for local development unless EXPLICITLY forced by the user. Doing so breaks JavaScript rendering on mobile browser testing due to HSTS blocks. ALWAYS use standard `npm run dev`. For external or mobile testing, you MUST use Ngrok to bypass HSTS and IPv6 conflicts.
+- **ORPHANED FILES PURGE:** If you find old files/folders (e.g., `certificates/`, unused `.js` configs) that are no longer used by the workflow, you MUST proactively propose their deletion to keep the workspace clean. Follow the `.docs/project-manifest.md` inventory strictly.
+
+## 🧩 6. EXTENSION AUTO-SYNC RULE
+- **Auto-Update extensions.json:** Whenever you integrate a new technology, framework, or library, you MUST automatically check if a corresponding VS Code extension is required.
+- **Sync & Blacklist:** Add the required extension ID to `"recommendations"` and add any conflicting/outdated extensions to `"unwantedRecommendations"` in `.vscode/extensions.json`.
+- **Marketplace Drift & Ownership:** If an extension is not found because the publisher changed, was acquired, or deprecated (e.g., Open-VSX vs Microsoft Store differences), you MUST search for the new publisher or modern alternative, update `extensions.json` with the new ID, and move the old ID to `"unwantedRecommendations"`.
+- **Mandatory Prompt:** Before finalizing, you MUST explicitly state to the User: *"Karena Anda mengintegrasi fitur [NAMA FITUR], Anda memerlukan ekstensi [NAMA EKSTENSI]. Saya akan menyinkronkannya otomatis agar tidak bertubrukan."*
+
+## 🔧 7. NETWORK & TROUBLESHOOTING PROTOCOL
+- **Localhost / Connection Issues:** If the User reports that "localhost is not working", "Cannot GET /home", or "components disappeared", you MUST immediately read `.docs/troubleshooting-network.md` to diagnose Ghost Processes (PID conflicts on port 3000), IPv6/IPv4 mismatches, and HSTS browser caching BEFORE changing any UI or Next.js code.
+
+If you understand these rules, proceed with the User's prompt.

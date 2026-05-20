@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    // === CORE & REQUIRED (Wajib Diinstal Semua) ===
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "Prisma.prisma",
+    "github.vscode-github-actions",
+    "EditorConfig.EditorConfig",
+    "mikestead.dotenv",
+
+    // === OPTIONAL AI AGENTS (Pilih Salah Satu Saja!) ===
+    // Jangan install lebih dari satu agar tidak saling bertabrakan dan membuat folder sampah
+    "kilocode.kilo",
+    "saoudrizwan.claude-dev",
+    "rooveterinaryinc.roo-cline"
+  ],
+  "unwantedRecommendations": [
+    // === DEPRECATED / CONFLICTING (Wajib Dimatikan) ===
+    "eg2.tslint",
+    "hookyqr.beautify",
+    "ritwickdey.liveserver"
+  ]
+}
