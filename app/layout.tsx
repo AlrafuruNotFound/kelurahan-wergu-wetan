@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { LanguageProvider } from "@/context/LanguageContext";
 import ClientLayout from "@/components/user/ClientLayout";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -78,6 +79,7 @@ export default function RootLayout({
           {/* Jangan ada <TopBar /> atau <Navbar /> disini lagi */}
 
           <ClientLayout>{children}</ClientLayout>
+          <SpeedInsights />
         </LanguageProvider>
       </body>
     </html>
