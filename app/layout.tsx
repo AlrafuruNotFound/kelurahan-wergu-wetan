@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { LanguageProvider } from "@/context/LanguageContext";
 import ClientLayout from "@/components/user/ClientLayout";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -44,7 +45,7 @@ export default function RootLayout({
                 window.history.scrollRestoration = 'manual';
               }
               window.scrollTo(0, 0);
-              
+
               // Paksa scroll ke atas selama 1 detik pertama proses pemuatan halaman
               // agar melompati seluruh bug pemulihan scroll browser mobile
               let attempts = 0;
@@ -79,6 +80,7 @@ export default function RootLayout({
 
           <ClientLayout>{children}</ClientLayout>
         </LanguageProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

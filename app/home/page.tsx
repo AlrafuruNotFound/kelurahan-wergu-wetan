@@ -2,6 +2,7 @@ import HomeView from "@/components/user/HomeView";
 import prisma from "@/lib/db";
 export const dynamic = "force-dynamic";
 
+
 export default async function HomePage() {
   const banners =
     (await prisma.bannerHomepage.findMany({
