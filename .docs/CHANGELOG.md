@@ -6,7 +6,7 @@
 ---
 ## [v3.9.2] - 2026-05-28
 ### Fixed (TypeScript & Linting)
-- **Strict Actions Type-Safety:** Refactoring type-safe catch blocks in all server actions to remove any explicit `any` types. Checked for `instanceof Error` dynamically when returning or logging errors.
+- **Strict Actions Type-Safety:** Refactoring catch blocks in all server actions to remove explicit `any` annotations and ensure strict type-safety. Checked for `instanceof Error` dynamically when returning or logging errors.
 - **Prisma Actions Typing:** Strongly typed `updateData` variables using `Prisma.BannerHomepageUpdateInput` and `Prisma.KegiatanUpdateInput` instead of `any`.
 - **ZodError Bugfix:** Fixed a TypeScript check error in `potensi.action.ts` where `error.errors` was used instead of the correct `error.issues` for `ZodError` properties.
 - **Linter Warnings Cleanup:** Removed unused variable `searchParam` in `search.action.ts` to clear linter warnings.
