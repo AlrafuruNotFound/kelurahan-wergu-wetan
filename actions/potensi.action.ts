@@ -96,10 +96,10 @@ export async function simpanPotensi(formData: FormData) {
     revalidatePath("/admin/halaman/potensi-desa");
     revalidatePath("/potensi-desa");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error simpan potensi:", error);
-    if (error.name === "ZodError") {
-      return { success: false, error: error.errors[0].message };
+    if (error instanceof z.ZodError) {
+      return { success: false, error: error.issues[0].message };
     }
     return { success: false, error: "Gagal menyimpan data potensi." };
   }

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/db";
 import { z } from "zod";
 import { verifySession } from "@/lib/safe-action";
+import { Prisma } from "@prisma/client";
 
 // --- SKEMA VALIDASI ---
 const KegiatanSchema = z.object({
@@ -44,8 +45,9 @@ export async function simpanBerita(rawFormData: FormData) {
     revalidatePath("/admin/halaman/berita");
     revalidatePath("/home");
     return { success: true, message: "Berita berhasil ditambahkan!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -61,8 +63,9 @@ export async function hapusBerita(id: number) {
     revalidatePath("/admin/halaman/berita");
     revalidatePath("/home");
     return { success: true, message: "Berita berhasil dihapus!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -78,7 +81,7 @@ export async function editBerita(id: number, rawFormData: FormData) {
     const penulis = rawFormData.get("penulis") as string;
     const status = rawFormData.get("status") as string;
 
-    const dataToUpdate: any = { judul, isi };
+    const dataToUpdate: Prisma.KegiatanUpdateInput = { judul, isi };
     if (gambar) dataToUpdate.gambar = gambar;
     if (kategori) dataToUpdate.kategori = kategori;
     if (penulis) dataToUpdate.penulis = penulis;
@@ -91,7 +94,8 @@ export async function editBerita(id: number, rawFormData: FormData) {
 
     revalidatePath("/admin/halaman/berita");
     revalidatePath("/berita");
-  } catch (error: any) {
-    console.error("Gagal ubah berita:", error.message);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    console.error("Gagal ubah berita:", errorMessage);
   }
 }

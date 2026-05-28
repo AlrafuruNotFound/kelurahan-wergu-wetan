@@ -6,6 +6,7 @@ import { writeFile, unlink, mkdir } from "fs/promises";
 import path from "path";
 import { z } from "zod";
 import { verifySession } from "@/lib/safe-action";
+import { Prisma } from "@prisma/client";
 
 // --- SKEMA VALIDASI ---
 const BannerSchema = z.object({
@@ -53,7 +54,7 @@ export async function saveBanner(formData: FormData) {
     const id = validData.data.id ? parseInt(validData.data.id) : null;
 
     if (id) {
-      const updateData: any = {
+      const updateData: Prisma.BannerHomepageUpdateInput = {
         halaman: validData.data.halaman,
         tagline: validData.data.tagline,
         judul: validData.data.judul,
@@ -84,8 +85,9 @@ export async function saveBanner(formData: FormData) {
     revalidatePath("/");
 
     return { success: true, message: "Banner berhasil disimpan!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -115,7 +117,8 @@ export async function hapusBanner(id: number) {
     revalidatePath("/");
 
     return { success: true, message: "Banner berhasil dihapus!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    return { success: false, message: errorMessage };
   }
 }

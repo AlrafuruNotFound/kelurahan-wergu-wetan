@@ -59,8 +59,9 @@ export async function loginAction(formData: FormData) {
     });
 
     return { success: true, message: "Login berhasil" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+    return { success: false, message: errorMessage };
   }
 }
 
