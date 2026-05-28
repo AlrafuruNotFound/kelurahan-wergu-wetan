@@ -21,9 +21,10 @@ export async function tambahPerangkat(formData: FormData) {
     revalidatePath("/admin/halaman/tentang-kami/struktur");
     revalidatePath("/tentang-kami");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
     console.error("Failed to add perangkat:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -43,9 +44,10 @@ export async function ubahPerangkat(id: number, formData: FormData) {
     revalidatePath("/admin/halaman/tentang-kami/struktur");
     revalidatePath("/tentang-kami");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
     console.error("Failed to update perangkat:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -56,9 +58,10 @@ export async function hapusPerangkat(id: number) {
     revalidatePath("/admin/halaman/tentang-kami/struktur");
     revalidatePath("/tentang-kami");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
     console.error("Failed to delete perangkat:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -78,7 +81,7 @@ export async function simpanProfilKonten(formData: FormData) {
     });
     revalidatePath("/admin/halaman/tentang-kami/teks");
     revalidatePath("/tentang-kami");
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to save profile content:", error);
   }
 }

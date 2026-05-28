@@ -14,8 +14,6 @@ export type SearchResult = {
 export async function globalSearch(query: string): Promise<SearchResult[]> {
   if (!query || query.trim() === "") return [];
 
-  const searchParam = `%${query.trim()}%`;
-
   try {
     // Cari di tabel Kegiatan (Berita)
     const berita = await prisma.kegiatan.findMany({
@@ -46,7 +44,7 @@ export async function globalSearch(query: string): Promise<SearchResult[]> {
     });
 
     // Format dan gabungkan hasil
-    const formattedBerita: SearchResult[] = berita.map((b: any) => ({
+    const formattedBerita: SearchResult[] = berita.map((b) => ({
       id: `berita-${b.id}`,
       judul: b.judul,
       slug: b.slug,
@@ -55,7 +53,7 @@ export async function globalSearch(query: string): Promise<SearchResult[]> {
       tanggal: b.tanggal,
     }));
 
-    const formattedPotensi: SearchResult[] = potensi.map((p: any) => ({
+    const formattedPotensi: SearchResult[] = potensi.map((p) => ({
       id: `potensi-${p.id}`,
       judul: p.judul,
       slug: p.slug,

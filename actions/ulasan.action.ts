@@ -45,7 +45,7 @@ export async function tambahUlasan(formData: FormData) {
       message: "Terima kasih! Ulasan Anda berhasil dikirim.",
       data: ulasan 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gagal tambah ulasan:", error);
     return { success: false, message: "Terjadi kesalahan sistem saat mengirim ulasan." };
   }
@@ -59,7 +59,7 @@ export async function getSemuaUlasan() {
       orderBy: { createdAt: "desc" },
     });
     return { success: true, data: ulasan };
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, message: "Gagal mengambil data ulasan." };
   }
 }

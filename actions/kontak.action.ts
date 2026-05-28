@@ -26,7 +26,7 @@ export async function simpanSiteConfig(formData: FormData) {
     );
     revalidatePath("/admin/halaman/kontak");
     revalidatePath("/kontak");
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to save site config:", error);
   }
 }
@@ -49,9 +49,10 @@ export async function ubahStatusPesan(id: number, status: string) {
     await prisma.pesanMasuk.update({ where: { id }, data: { status } });
     revalidatePath("/admin/halaman/kontak");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
     console.error("Failed to change message status:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -61,8 +62,9 @@ export async function hapusPesan(id: number) {
     await prisma.pesanMasuk.delete({ where: { id } });
     revalidatePath("/admin/halaman/kontak");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
     console.error("Failed to delete message:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: errorMessage };
   }
 }
