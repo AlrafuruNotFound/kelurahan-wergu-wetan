@@ -1,29 +1,40 @@
+<!-- markdownlint-disable MD024 -->
 # 📝 CHANGELOG
 
 **Portal Web Terpadu Kelurahan Wergu Wetan**
+
 **Rule:** Semua perubahan struktur, penambahan file, atau pergantian status fitur WAJIB dicatat di sini terlebih dahulu sebelum memperbarui dokumen spesifik di `.docs/`.
+
 ---
 ---
+
 ## [v3.9.2] - 2026-05-28
+
 ### Fixed (TypeScript & Linting)
+
 - **Strict Actions Type-Safety:** Refactoring catch blocks in all server actions to remove explicit `any` annotations and ensure strict type-safety. Checked for `instanceof Error` dynamically when returning or logging errors.
 - **Prisma Actions Typing:** Strongly typed `updateData` variables using `Prisma.BannerHomepageUpdateInput` and `Prisma.KegiatanUpdateInput` instead of `any`.
 - **ZodError Bugfix:** Fixed a TypeScript check error in `potensi.action.ts` where `error.errors` was used instead of the correct `error.issues` for `ZodError` properties.
 - **Linter Warnings Cleanup:** Removed unused variable `searchParam` in `search.action.ts` to clear linter warnings.
 
 ## [v3.9.1] - 2026-05-28
+
 ### Changed (DevOps & Workflow)
+
 - **Branch Rename (pr -> dev):** Mengubah nama cabang integrasi/staging dari `pr` menjadi `dev` di seluruh berkas konfigurasi workflow GitHub Actions (`ci.yml`, `docs-sync.yml`), template PR (`PULL_REQUEST_TEMPLATE.md`), berkas kontribusi (`CONTRIBUTING.md`), blueprint arsitektur (`architecture.md`), serta berkas panduan AI (`.cursorrules`, `.agentrules`, dll.) demi memperjelas alur branching dan menghindari kebingungan.
 - **Resync CI Integration:** Mengintegrasikan langkah verifikasi CI lokal (`npx tsc`, `npm run lint`, `npx prisma generate`, `npm run build`, dan pemeriksaan `CHANGELOG.md` modifikasi) secara wajib ke dalam berkas `.docs/resync-protocol.md`.
 - **CI Order Optimization:** Memindahkan langkah `npx prisma generate` agar berjalan sebelum `npm run lint` dan `npx tsc --noEmit` di workflow GitHub Actions (`ci.yml`) untuk memastikan tipe data Prisma siap digunakan sebelum proses linting dan kompilasi TypeScript.
 
 ## [v3.8.9] - 2026-05-28
+
 ### Fixed (TypeScript & Linting)
+
 - **Safe Error Catching:** Melakukan refactoring masif pada seluruh Server Actions (`actions/*.ts`) untuk menghapus penggunaan `catch (error: any)`. Kini menggunakan block `catch (error)` dengan pengecekan aman `error instanceof Error` sesuai aturan ketat *strict mode* TypeScript.
 - **Type Definitions:** Memperbaiki peringatan `any` type saat mendefinisikan payload seperti `updateData` pada action (misal `admin.action.ts`) menjadi `Record<string, string>`.
 - **Linter Cleanup:** Menghapus unused parameter `rawFormData` di `home.action.ts`.
 
 ## [v3.8.8] - 2026-05-20
+
 ### Security Hardening (Server Actions & Admin Session)
 - **Central Sesi Admin (`lib/safe-action.ts`):** Mengimplementasikan modul verifikasi sesi terpusat dengan helper `verifySession()` dan `verifySuperAdmin()` menggunakan `jose` untuk perlindungan JWT aman.
 - **Server Action Security Hardening:** Memperkeras seluruh Server Actions administratif di folder `actions/` dengan menambahkan otorisasi sesi terpusat di awal eksekusi, dibungkus try-catch untuk penanganan eror yang aman bagi klien, dan penyesuaian tipe form action agar Next.js production build sukses tanpa tipe mismatch.
