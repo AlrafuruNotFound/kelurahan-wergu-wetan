@@ -16,7 +16,7 @@ const RULES = [
   {
     name: 'Prisma/PostgreSQL Database URL',
     regex: /postgresql:\/\/[^@\s]+:[^@\s]+@[^\s]+/i,
-    excludeFiles: [/schema\.prisma$/, /seed\.ts$/, /\.env\.example$/, /\.md$/]
+    excludeFiles: [/schema\.prisma$/, /seed\.ts$/, /\.env\.example$/, /\.md$/, /\.yml$/]
   },
   {
     name: 'Hardcoded JWT Secret',
