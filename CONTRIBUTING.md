@@ -19,12 +19,15 @@ Terima kasih sudah ingin berkontribusi! Proyek ini menggunakan **ANF-Agentic Arc
 |--------|-------|-------------|
 | `be/<nama-fitur>` | Ranting khusus kerja Backend | `actions/`, `lib/`, `prisma/` |
 | `fe/<nama-fitur>` | Ranting khusus kerja Frontend | `components/`, `app/` |
-| `pr` | **Batang Integrasi Utama** (Staging). Semua ranting `be/` dan `fe/` dilempar (merge) ke sini untuk dites bersama. | Semua, tempat bertemunya kode |
+| `dev` | **Batang Integrasi Utama** (Staging). Semua ranting `be/` dan `fe/` dilempar (merge) ke sini untuk dites bersama. | Semua, tempat bertemunya kode |
 | `hotfix/<desc>` | Bugfix darurat ke production | Minimal, targeted |
-| `main` | **Production (Live)** | ❌ Dilarang keras commit langsung |
+| `main` | **Production (Live)** | ❌ Dilarang keras commit langsung (Termasuk Admin!) |
 
 > **⚠️ ATURAN EMAS BRANCHING:** 
 > Dilarang membuat *branch* dengan nama `be` atau `fe` saja. Selalu gunakan format *folder* (contoh: `be/nama-fitur`). Ini mencegah penumpukan kode dan menghindari *Merge Hell*.
+
+> 🚨 **PERINGATAN KHUSUS ADMIN (ADMIN BYPASS RULE):**
+> Meskipun akun Admin memiliki hak istimewa (*privilege*) di GitHub yang memungkinkannya menembus (*bypass*) aturan *branch protection* dan men-push langsung ke `main`, **hal ini SANGAT DILARANG**. Setiap *bypass* merusak integritas *Pull Request* dan dapat menggagalkan *CI/CD pipeline*. Selalu gunakan jalur *Pull Request* dari `be/*` atau `fe/*` menuju `main`, agar riwayat proyek tetap aman dan ada rekam jejak (*lesson learned*).
 
 > 🛑 **ATURAN KEAMANAN AI AGENT:** 
 > Untuk AI Agent (seperti Antigravity, Claude Code, dll), **DILARANG KERAS** mengeksekusi SEMUA perintah `git` (`git add`, `git commit`, `git checkout`, `git merge`, `git push`, dsb.) secara otomatis (otomatis bypass persetujuan). AI Agent wajib memicu konfirmasi pengguna (pop-up allow/deny) atau menunggu instruksi tertulis sebelum menjalankan operasi Git apa pun agar User bisa meninjau dan menganalisis kode yang akan diubah.
@@ -38,7 +41,7 @@ git checkout -b be/ulasan-ikm
 git checkout -b fe/ulasan-ui
 
 # 3. Keduanya melempar kode mereka ke batang integrasi di GitHub:
-# -> Merge PR ke branch `pr`
+# -> Merge PR ke branch `dev`
 ```
 
 ---

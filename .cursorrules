@@ -23,7 +23,7 @@ Depending on the User's task, you must dynamically read the following:
 
 ## 🌿 4. BRANCHING & WORKFLOW RULES
 - **Branch Creation Mandatory:** You MUST explicitly create and switch to a new branch using `git checkout -b <type>/<name>` BEFORE starting any work.
-- Never work directly on `main` or `pr` (unless integrating).
+- Never work directly on `main` or `dev` (unless integrating).
 - Backend tasks -> `be/<feature-name>`
 - Frontend tasks -> `fe/<feature-name>`
 - Documentation tasks -> `docs/<topic-name>`
