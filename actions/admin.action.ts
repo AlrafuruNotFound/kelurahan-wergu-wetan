@@ -93,8 +93,8 @@ export async function tambahAdmin(formData: FormData) {
 
     revalidatePath("/admin/settings/manajemen-admin");
     return { success: true, message: "Admin berhasil ditambahkan" };
-  } catch (error: any) {
-    return { success: false, message: error.message ?? "Terjadi kesalahan" };
+  } catch (error) {
+    return { success: false, message: (error instanceof Error ? error.message : String(error)) ?? "Terjadi kesalahan" };
   }
 }
 
@@ -121,7 +121,7 @@ export async function editAdmin(formData: FormData) {
 
     const { id, namaLengkap, role, password } = valid.data;
 
-    const updateData: any = { namaLengkap, role };
+    const updateData: Record<string, string> = { namaLengkap, role };
     if (password && password.length >= 6) {
       updateData.passwordHash = await bcrypt.hash(password, 12);
     }
@@ -130,8 +130,8 @@ export async function editAdmin(formData: FormData) {
 
     revalidatePath("/admin/settings/manajemen-admin");
     return { success: true, message: "Data admin berhasil diperbarui" };
-  } catch (error: any) {
-    return { success: false, message: error.message ?? "Terjadi kesalahan" };
+  } catch (error) {
+    return { success: false, message: (error instanceof Error ? error.message : String(error)) ?? "Terjadi kesalahan" };
   }
 }
 
@@ -167,7 +167,7 @@ export async function hapusAdmin(id: number) {
 
     revalidatePath("/admin/settings/manajemen-admin");
     return { success: true, message: "Admin berhasil dihapus" };
-  } catch (error: any) {
-    return { success: false, message: error.message ?? "Terjadi kesalahan" };
+  } catch (error) {
+    return { success: false, message: (error instanceof Error ? error.message : String(error)) ?? "Terjadi kesalahan" };
   }
 }

@@ -4,6 +4,12 @@
 **Rule:** Semua perubahan struktur, penambahan file, atau pergantian status fitur WAJIB dicatat di sini terlebih dahulu sebelum memperbarui dokumen spesifik di `.docs/`.
 ---
 ---
+## [v3.8.9] - 2026-05-28
+### Fixed (TypeScript & Linting)
+- **Safe Error Catching:** Melakukan refactoring masif pada seluruh Server Actions (`actions/*.ts`) untuk menghapus penggunaan `catch (error: any)`. Kini menggunakan block `catch (error)` dengan pengecekan aman `error instanceof Error` sesuai aturan ketat *strict mode* TypeScript.
+- **Type Definitions:** Memperbaiki peringatan `any` type saat mendefinisikan payload seperti `updateData` pada action (misal `admin.action.ts`) menjadi `Record<string, string>`.
+- **Linter Cleanup:** Menghapus unused parameter `rawFormData` di `home.action.ts`.
+
 ## [v3.8.8] - 2026-05-20
 ### Security Hardening (Server Actions & Admin Session)
 - **Central Sesi Admin (`lib/safe-action.ts`):** Mengimplementasikan modul verifikasi sesi terpusat dengan helper `verifySession()` dan `verifySuperAdmin()` menggunakan `jose` untuk perlindungan JWT aman.

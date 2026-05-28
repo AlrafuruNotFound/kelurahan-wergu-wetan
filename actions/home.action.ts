@@ -20,15 +20,15 @@ const HomeWelcomeSchema = z.object({
 });
 
 // === 1. UPLOAD STATISTIK EXCEL ===
-export async function uploadStatisticsExcel(rawFormData: FormData) {
+export async function uploadStatisticsExcel(_rawFormData: FormData) {
   try {
     await verifySession();
     return { 
       success: false, 
       message: "Fitur upload Excel dinonaktifkan sementara karena masalah keamanan (migrasi dari library xlsx)." 
     };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
@@ -52,8 +52,8 @@ export async function saveStatistic(formData: FormData) {
     revalidatePath("/admin/halaman/tentang-kami/statistik");
 
     return { success: true, message: "Statistik berhasil disimpan!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
@@ -67,8 +67,8 @@ export async function deleteStatistic(id: number) {
     revalidatePath("/admin/halaman/tentang-kami/statistik");
 
     return { success: true, message: "Statistik berhasil dihapus!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
@@ -101,7 +101,7 @@ export async function saveService(rawFormData: FormData) {
 
     const id = validData.data.id ? parseInt(validData.data.id) : null;
     if (id) {
-      const updateData: any = { title: validData.data.title };
+      const updateData: Record<string, string> = { title: validData.data.title };
       if (finalIconURL) updateData.iconURL = finalIconURL;
       await prisma.homeService.update({ where: { id }, data: updateData });
     } else {
@@ -117,8 +117,8 @@ export async function saveService(rawFormData: FormData) {
     revalidatePath("/home");
     revalidatePath("/admin/halaman/beranda");
     return { success: true, message: "Layanan berhasil disimpan!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
@@ -139,8 +139,8 @@ export async function deleteService(id: number) {
     revalidatePath("/home");
     revalidatePath("/admin/halaman/beranda");
     return { success: true, message: "Layanan berhasil dihapus!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
@@ -195,7 +195,7 @@ export async function saveWelcome(rawFormData: FormData) {
     revalidatePath("/home");
     revalidatePath("/admin/halaman/beranda");
     return { success: true, message: "Sambutan sukses diperbarui!" };
-  } catch (error: any) {
-    return { success: false, message: error.message };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Unknown error" };
   }
 }
