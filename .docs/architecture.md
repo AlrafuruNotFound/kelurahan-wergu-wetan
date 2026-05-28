@@ -80,7 +80,7 @@ Untuk menjaga "Separation of Concerns" (pemisahan fokus kode), detail sistem dip
 |--------|-------|---------|--------|
 | **`be/<nama-fitur>`** | Backend | Kerja terisolasi Server Actions, Prisma (`actions/`, `lib/`, `prisma/`) | Kode logic mentah |
 | **`fe/<nama-fitur>`** | Frontend | Kerja terisolasi UI komponen (`components/`, `app/`) | Tampilan UI yang siap diikat data |
-| **`pr`** | Integration | **Staging Server**. Tempat bertemunya kode hasil kerja `be/` dan `fe/` | Fitur terintegrasi penuh |
+| **`dev`** | Integration | **Staging Server**. Tempat bertemunya kode hasil kerja `be/` dan `fe/` | Fitur terintegrasi penuh |
 | **`main`** | Production | Server Live, kode siap pakai warga | Rilis Resmi |
 
 ### Branch Lifecycle (Pro Max Flow)
@@ -91,7 +91,7 @@ Untuk menjaga "Separation of Concerns" (pemisahan fokus kode), detail sistem dip
                  \ (Merge Pull Request)
                   \
                    v
-                 [pr] (Staging / Tes Integrasi) -----> [main] (Production / Rilis)
+                 [dev] (Staging / Tes Integrasi) -----> [main] (Production / Rilis)
                    ^
                   /
                  / (Merge Pull Request)
@@ -102,7 +102,7 @@ Untuk menjaga "Separation of Concerns" (pemisahan fokus kode), detail sistem dip
 **Rules:**
 - ✅ **Kerja selalu di ranting (`be/*` atau `fe/*` atau `chore/*`, dll).** Anda WAJIB membuat *branch* fisik terlebih dahulu dengan `git checkout -b <branch-name>` sebelum mulai mengedit file.
 - ❌ **Dilarang keras** membuat branch `be` atau `fe` tanpa garis miring (zombie branches).
-- ✅ **Merge Target:** Selalu arahkan Pull Request ke branch `pr`.
+- ✅ **Merge Target:** Selalu arahkan Pull Request ke branch `dev`.
 - ❌ **Jangan pernah** push langsung ke `main`.
 - 🛑 **AI Agent Safety Rule:** AI Agent (Antigravity/dll) **DILARANG** melakukan SEMUA operasi `git` (`git add`, `git commit`, `git checkout`, `git merge`, `git push`, dll) secara *auto-run*. Selalu picu konfirmasi eksplisit (pop-up allow button) dari User agar User dapat meninjau analisis perubahan kode terlebih dahulu.
 - 👁️ **Git Transparency Law:** AI **WAJIB** menjelaskan secara tertulis di chat rincian perintah `git` yang dijalankan (branch tujuan, pesan commit) beserta daftar file yang diubah/dihapus/ditambahkan. Jangan mengeksekusi git di background tanpa memberitahu rinciannya ke User.
@@ -118,7 +118,7 @@ Untuk menjaga "Separation of Concerns" (pemisahan fokus kode), detail sistem dip
 | Documentation | `docs/<topik>` | `docs/mcp-rules` |
 | Maintenance/Config | `chore/<tugas>` | `chore/update-eslint` |
 | Hotfix | `hotfix/<desc>` | `hotfix/login-cookie-bug` |
-| Integration | **`pr`** | *(Single integration branch)* |
+| Integration | **`dev`** | *(Single integration branch)* |
 
 ---
 
@@ -201,7 +201,7 @@ wergu-wetan-app/
 **Workspace Separation:**
 - **BE workspace** (`be/*` branch): `actions/`, `lib/`, `prisma/` — Server Actions, Prisma, services
 - **FE workspace** (`fe/*` branch): `components/`, `app/` — UI components, pages, layouts
-- **Integration** (`pr/*` branch): Merge BE + FE → test data contracts (props "holes")
+- **Integration** (`dev/*` branch): Merge BE + FE → test data contracts (props "holes")
 
 ---
 
@@ -495,9 +495,9 @@ See `.env.example` for template.
 
 ---
 
-## 🧪 11. Integration Testing Checklist (`pr/*`)
+## 🧪 11. Integration Testing Checklist (`dev/*`)
 
-After merging BE + FE in `pr/*` branch:
+After merging BE + FE in `dev/*` branch:
 
 **Automated (if test setup exists):**
 ```typescript

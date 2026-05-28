@@ -4,6 +4,11 @@
 **Rule:** Semua perubahan struktur, penambahan file, atau pergantian status fitur WAJIB dicatat di sini terlebih dahulu sebelum memperbarui dokumen spesifik di `.docs/`.
 ---
 ---
+## [v3.9.1] - 2026-05-28
+### Changed (DevOps & Workflow)
+- **Branch Rename (pr -> dev):** Mengubah nama cabang integrasi/staging dari `pr` menjadi `dev` di seluruh berkas konfigurasi workflow GitHub Actions (`ci.yml`, `docs-sync.yml`), template PR (`PULL_REQUEST_TEMPLATE.md`), berkas kontribusi (`CONTRIBUTING.md`), blueprint arsitektur (`architecture.md`), serta berkas panduan AI (`.cursorrules`, `.agentrules`, dll.) demi memperjelas alur branching dan menghindari kebingungan.
+- **Resync CI Integration:** Mengintegrasikan langkah verifikasi CI lokal (`npx tsc`, `npm run lint`, `npx prisma generate`, `npm run build`, dan pemeriksaan `CHANGELOG.md` modifikasi) secara wajib ke dalam berkas `.docs/resync-protocol.md`.
+
 ## [v3.8.9] - 2026-05-28
 ### Fixed (TypeScript & Linting)
 - **Safe Error Catching:** Melakukan refactoring masif pada seluruh Server Actions (`actions/*.ts`) untuk menghapus penggunaan `catch (error: any)`. Kini menggunakan block `catch (error)` dengan pengecekan aman `error instanceof Error` sesuai aturan ketat *strict mode* TypeScript.

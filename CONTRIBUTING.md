@@ -19,7 +19,7 @@ Terima kasih sudah ingin berkontribusi! Proyek ini menggunakan **ANF-Agentic Arc
 |--------|-------|-------------|
 | `be/<nama-fitur>` | Ranting khusus kerja Backend | `actions/`, `lib/`, `prisma/` |
 | `fe/<nama-fitur>` | Ranting khusus kerja Frontend | `components/`, `app/` |
-| `pr` | **Batang Integrasi Utama** (Staging). Semua ranting `be/` dan `fe/` dilempar (merge) ke sini untuk dites bersama. | Semua, tempat bertemunya kode |
+| `dev` | **Batang Integrasi Utama** (Staging). Semua ranting `be/` dan `fe/` dilempar (merge) ke sini untuk dites bersama. | Semua, tempat bertemunya kode |
 | `hotfix/<desc>` | Bugfix darurat ke production | Minimal, targeted |
 | `main` | **Production (Live)** | ❌ Dilarang keras commit langsung (Termasuk Admin!) |
 
@@ -41,7 +41,7 @@ git checkout -b be/ulasan-ikm
 git checkout -b fe/ulasan-ui
 
 # 3. Keduanya melempar kode mereka ke batang integrasi di GitHub:
-# -> Merge PR ke branch `pr`
+# -> Merge PR ke branch `dev`
 ```
 
 ---

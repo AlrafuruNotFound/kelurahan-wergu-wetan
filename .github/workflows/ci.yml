@@ -7,16 +7,16 @@ on:
   push:
     branches:
       - main
-      - 'pr'       # Branch integrasi utama (langsung, bukan pr/xxx)
-      - 'pr/**'    # Branch integrasi spesifik (pr/berita-filter, dll.)
+      - 'dev'       # Branch integrasi utama (langsung, bukan dev/xxx)
+      - 'dev/**'    # Branch integrasi spesifik (dev/berita-filter, dll.)
       - 'be/**'
       - 'fe/**'
       - 'hotfix/**' # Branch perbaikan darurat
   pull_request:
     branches:
       - main
-      - 'pr'       # PR yang menyasar branch pr
-      - 'pr/**'    # PR yang menyasar branch pr/xxx
+      - 'dev'       # PR yang menyasar branch dev
+      - 'dev/**'    # PR yang menyasar branch dev/xxx
 
 # Batalkan run lama jika ada push baru di branch yang sama
 concurrency:
