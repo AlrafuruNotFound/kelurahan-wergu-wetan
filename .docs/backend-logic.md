@@ -71,8 +71,8 @@ export async function createEntity(input: unknown) {
     // revalidatePath('/entities');
 
     return { success: true, message: "Entity berhasil dibuat", data: entity };
-  } catch (error: any) {
-    return { success: false, message: error.message || "Terjadi kesalahan sistem" };
+  } catch (error) {
+    return { success: false, message: (error instanceof Error ? error.message : String(error)) || "Terjadi kesalahan sistem" };
   }
 }
 ```
@@ -258,9 +258,9 @@ export async function simpanData(formData: FormData) {
     await verifySession(); // Verifikasi level admin
     // ... logika bisnis ...
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gagal simpan data:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 ```
