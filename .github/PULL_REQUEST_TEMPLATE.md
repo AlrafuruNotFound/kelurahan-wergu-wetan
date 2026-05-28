@@ -6,7 +6,7 @@
 
 - [ ] `be/*` — Backend (Server Actions, Prisma, lib)
 - [ ] `fe/*` — Frontend (components, pages, styles)
-- [ ] `pr/*` — Integration (merge be + fe)
+- [ ] `dev/*` — Integration (merge be + fe)
 - [ ] `hotfix/*` — Hotfix kritis
 - [ ] `docs/*` — Dokumentasi saja
 

@@ -42,7 +42,33 @@ Berdasarkan hasil `git diff` dari Langkah 2:
 - Jika ada standar pengerjaan backend, frontend, atau alur kerja CI/CD baru yang ditambahkan, perbarui `.github/PULL_REQUEST_TEMPLATE.md` serta sesuaikan file `.github/workflows/*` jika diperlukan.
 Lakukan perubahan menggunakan tool edit file. **Jangan** sekadar menimpa teks, tapi tulislah narasi yang menjelaskan perubahan tersebut ke dalam dokumen.
 
-### Langkah 5: Pelaporan & Catatan Sejarah
-Setelah semua dokumen di atas akurat dengan kondisi kode terbaru:
-1. Tambahkan 1 baris catatan ke `.docs/CHANGELOG.md` tentang apa yang baru saja disinkronkan.
-2. Tampilkan pesan sukses di *chat* bahwa "Resync Ekosistem Selesai", dan tanyakan ke *user* apakah siap untuk `git commit`.
+### Langkah 5: Validasi Kualitas Kode & CI/CD (Local Pre-flight)
+AI wajib memverifikasi bahwa perubahan kode tidak merusak aturan CI/CD GitHub. Jalankan perintah terminal berikut dan pastikan semuanya sukses:
+1. **TypeScript Type Check:**
+   ```bash
+   npx tsc --noEmit
+   ```
+2. **ESLint Linting:**
+   ```bash
+   npm run lint
+   ```
+3. **Database Client Generation (wajib dijalankan jika ada perubahan schema.prisma):**
+   ```bash
+   npx prisma generate
+   ```
+4. **Next.js Production Build (sangat direkomendasikan jika ada perubahan rute atau komponen utama):**
+   ```bash
+   npm run build
+   ```
+5. **Docs-Sync Law Validation:**
+   Pastikan file `.docs/CHANGELOG.md` telah diperbarui dengan memverifikasi status git atau melakukan pengecekan diff:
+   ```bash
+   git diff --name-only origin/main...HEAD
+   ```
+   *(Catatan: PR akan ditolak otomatis oleh GitHub Action jika .docs/CHANGELOG.md tidak ikut dimodifikasi).*
+
+### Langkah 6: Pelaporan & Catatan Sejarah
+Setelah semua validasi di atas sukses dan dokumen akurat dengan kode terbaru:
+1. Tambahkan catatan ke `.docs/CHANGELOG.md` tentang perubahan atau sinkronisasi yang dilakukan.
+2. Tampilkan pesan sukses di *chat* bahwa "Resync Ekosistem Selesai", dan tanyakan ke *user* apakah siap untuk melakukan commit/push.
+
