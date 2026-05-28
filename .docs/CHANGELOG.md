@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD024 -->
+<!-- markdownlint-disable MD024 MD036 -->
 # 📝 CHANGELOG
 
 **Portal Web Terpadu Kelurahan Wergu Wetan**
